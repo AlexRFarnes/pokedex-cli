@@ -11,10 +11,10 @@ export class Pokeapi {
   async fetchLocations(pageURL?: string): Promise<ShallowLocations> {
     const locationURL =
       pageURL || `${Pokeapi.baseURL}/location-area/?offset=0&limit=20`;
-    console.log(`Fetching locations from ${locationURL}`);
+
     const cached = this.#cache.get<ShallowLocations>(locationURL);
+
     if (cached) {
-      console.log(`Cache hit for ${locationURL}`);
       return cached.val;
     }
     try {
@@ -32,12 +32,18 @@ export class Pokeapi {
 
   async fetchLocation(locationName: string): Promise<Location> {
     const locationURL = `${Pokeapi.baseURL}/location-area/${locationName}`;
+
+    const cached = this.#cache.get<Location>(locationURL);
+    if (cached) {
+      return cached.val;
+    }
     try {
       const response = await fetch(locationURL);
       if (!response.ok) {
         throw new Error(`${response.status} ${response.statusText}`);
       }
       const data: Location = await response.json();
+      this.#cache.add(locationURL, data);
       return data;
     } catch (error) {
       throw new Error(`Failed to fetch location: ${(error as Error).message}`);

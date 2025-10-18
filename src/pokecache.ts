@@ -20,7 +20,7 @@ export class Cache {
   get<T>(key: string): CacheEntry<T> | undefined {
     const entry = this.#cache.get(key);
     if (!entry) return undefined;
-    return entry.val;
+    return entry;
   }
 
   #reap() {

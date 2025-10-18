@@ -32,7 +32,7 @@ export async function startRepl(state: State) {
     }
 
     try {
-      await command.callback(state);
+      await command.callback(state, ...words.slice(1));
     } catch (error) {
       console.error((error as Error).message);
     } finally {
