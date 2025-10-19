@@ -12,14 +12,14 @@ export async function startRepl(state: State) {
   state.rl.prompt();
 
   state.rl.on("line", async line => {
-    const words = cleanInput(line);
+    const input = cleanInput(line);
 
-    if (words.length === 0) {
+    if (input.length === 0) {
       state.rl.prompt();
       return;
     }
 
-    const commandName = words[0];
+    const commandName = input[0];
 
     const command = state.commands[commandName];
 
@@ -32,7 +32,7 @@ export async function startRepl(state: State) {
     }
 
     try {
-      await command.callback(state, ...words.slice(1));
+      await command.callback(state, ...input.slice(1));
     } catch (error) {
       console.error((error as Error).message);
     } finally {
