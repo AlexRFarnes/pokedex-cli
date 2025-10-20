@@ -16,6 +16,7 @@ export async function commandCatch(
   const success = tryToCatchPokemon(pokemon);
   if (success) {
     console.log(`${pokemon.name} was caught!`);
+    console.log("You may now inspect it with the inspect command.");
     addPokemonToPokedex(state, pokemon);
   } else {
     console.log(`${pokemon.name} escaped!`);
