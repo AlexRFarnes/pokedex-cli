@@ -5,7 +5,7 @@ export async function commandInspect(
   state: State,
   ...args: string[]
 ): Promise<void> {
-  const pokemonName = args[0];
+  const pokemonName = args[0].toLowerCase();
   if (!pokemonName) {
     throw new Error("Pokemon name is required");
   }
